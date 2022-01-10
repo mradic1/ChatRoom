@@ -2,15 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ChatClient;
+package ChatServer;
 
 /**
  *
  * @author mradi
  */
-public class Start {
+public class ChatMessage {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World");
+    public String clientName;
+    public String clientMessage;
+
+    public ChatMessage(String name, String message) {
+        clientName = name;
+        clientMessage = message;
     }
 }

@@ -8,10 +8,15 @@ package ChatServer;
  *
  * @author mradi
  */
-public class Start {
+public class StartServer {
 
     public static void main(String[] args) {
-        System.out.println("Hello World");
+
+        System.out.println("Starting chat server");
+
+        Server chatServer = new Server(2000);
+        chatServer.start();
+
     }
 
 }
