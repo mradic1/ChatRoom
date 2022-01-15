@@ -8,7 +8,6 @@ import java.net.*;
 import java.io.*;
 
 /**
- *
  * @author mradi
  */
 public class StartClient {
@@ -26,6 +25,7 @@ public class StartClient {
             clientName = reader.readLine();
 
         } catch (IOException ex) {
+
 
             System.out.println("Error in reader");
         }
@@ -60,16 +60,34 @@ public class StartClient {
             System.out.println("Opening new port");
             Socket clientSocket = new Socket("127.0.0.1", newPort);
 
-            System.out.println("Creating listener thread");
-            Thread listeningThread = new Thread(new ClientListener(clientSocket.getInputStream()));
-            listeningThread.start();
-
             PrintWriter outputStream = new PrintWriter(clientSocket.getOutputStream(), true);
+            BufferedReader messageReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+
+            String message = "";
+            String input = "";
 
             while (true) {
+                try {
+                    
+                    if (messageReader.ready()) {
+                        message = messageReader.readLine();
+                        System.out.println("Received new message");
+                        System.out.println("-".repeat(message.length() + 4));
+                        System.out.println(message);
+                        System.out.println("-".repeat(message.length() + 4));
+                    }
 
-                BufferedReader messageReader = new BufferedReader(new InputStreamReader(System.in));
-                outputStream.println(messageReader.readLine());
+                    if (consoleReader.ready()) {
+                        input = consoleReader.readLine();
+                        System.out.println("Sending new message");
+                        outputStream.println(input);
+                        System.out.println("You: " + input);
+                    }
+                } catch (IOException ex) {
+                    System.out.println("Error in client listener");
+                    System.out.println(ex.getMessage());
+                }
             }
 
         } catch (IOException ex) {

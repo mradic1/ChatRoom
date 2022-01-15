@@ -8,7 +8,6 @@ import java.net.*;
 import java.io.*;
 
 /**
- *
  * @author mradi
  */
 public class ServerClient implements Runnable {
@@ -68,8 +67,16 @@ public class ServerClient implements Runnable {
     }
 
     public void pushMessage(ChatMessage message) {
-        System.out.println("Pushing message to clients: " + message.clientName + ":  " + message.clientMessage);
-        outputStream.println(message.clientName + ":  " + message.clientMessage);
+        try {
+
+            PrintWriter os = new PrintWriter(clientSocket.getOutputStream());
+            System.out.println("Pushing message to client " + clientName + ": " + message.clientName + ":  " + message.clientMessage);
+            os.println(message.clientName + ":  " + message.clientMessage);
+
+        } catch (IOException ex) {
+            System.out.println("Error pushing message");
+        }
+
     }
 
 }
